@@ -28,6 +28,9 @@
       font-size: 16px;
       cursor: pointer;
     }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -36,8 +39,10 @@
   <div id="result"></div>
 
   <h2>Sesión</h2>
-  <button id="loginButton">Iniciar sesión</button>
-  <button id="logoutButton">Cerrar sesión</button>
+  <div id="sessionButtons" class="hidden">
+    <button id="loginButton">Iniciar sesión</button>
+    <button id="logoutButton">Cerrar sesión</button>
+  </div>
   <div id="message"></div>
 
   <script>
@@ -57,13 +62,15 @@
       var chrome = userAgent.includes('chrome') && !userAgent.includes('wv');
 
       // Si es WebView en iOS o Android, devuelve true
-      if (iosWebview || androidWebview) {
-        return true; // Está en un WebView
-      } else if (chrome) {
-        return false; // Está en un navegador Chrome
-      }
+      return iosWebview || androidWebview;
+    }
 
-      return false; // No es WebView ni Chrome (puede ser otro navegador)
+    // Mostrar botones de sesión si se está en un WebView
+    function manageSessionButtons() {
+      var sessionDiv = document.getElementById("sessionButtons");
+      if (isWebview()) {
+        sessionDiv.classList.remove("hidden");
+      }
     }
 
     // Función que maneja el evento cuando se hace clic en el botón "Detectar WebView o Chrome"
@@ -73,43 +80,30 @@
       if (isWebview()) {
         resultDiv.innerHTML = "<strong>Estás en un WebView.</strong>";
       } else {
-        resultDiv.innerHTML = "<strong>Estás en un navegador Chrome.</strong>";
+        resultDiv.innerHTML = "<strong>No estás en un WebView.</strong>";
       }
     });
 
     // Función para simular iniciar sesión
     function login() {
-      // Simulamos un inicio de sesión exitoso
-      var isSuccess = false;
-
       var messageDiv = document.getElementById("message");
-      if (isSuccess) {
-        messageDiv.innerHTML = "<strong>¡Éxito! Has iniciado sesión correctamente.</strong>";
-        messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
-      } else {
-        messageDiv.innerHTML = "<strong>Error: No se pudo iniciar sesión.</strong>";
-        messageDiv.style.backgroundColor = "#f8d7da"; // Rojo claro
-      }
+      messageDiv.innerHTML = "<strong>¡Éxito! Has iniciado sesión correctamente.</strong>";
+      messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
     }
 
     // Función para simular cerrar sesión
     function logout() {
-      // Simulamos un cierre de sesión exitoso
-      var isSuccess = false; // 80% de éxito
-
       var messageDiv = document.getElementById("message");
-      if (isSuccess) {
-        messageDiv.innerHTML = "<strong>¡Éxito! Has cerrado sesión correctamente.</strong>";
-        messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
-      } else {
-        messageDiv.innerHTML = "<strong>Error: No se pudo cerrar sesión.</strong>";
-        messageDiv.style.backgroundColor = "#f8d7da"; // Rojo claro
-      }
+      messageDiv.innerHTML = "<strong>¡Éxito! Has cerrado sesión correctamente.</strong>";
+      messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
     }
 
     // Event listeners para los botones de iniciar sesión y cerrar sesión
     document.getElementById("loginButton").addEventListener("click", login);
     document.getElementById("logoutButton").addEventListener("click", logout);
+
+    // Ejecutar la detección al cargar la página
+    manageSessionButtons();
   </script>
 </body>
 </html>
