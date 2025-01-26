@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detección WebView o Chrome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Detección de WebView o Chrome</h1>
+  <button id="checkButton">Detectar WebView o Chrome</button>
+  <div id="result"></div>
+
+  <script>
+    // Función para detectar si está en un WebView o en un navegador
+    function isWebview() {
+      var userAgent = window.navigator.userAgent.toLowerCase();
+
+      // Detectar si está en un dispositivo iOS
+      var ios = /iphone|ipod|ipad/.test(userAgent);
+      // Detectar si está en un WebView de iOS (cuando no está en Safari)
+      var iosWebview = ios && !/safari/.test(userAgent);
+      
+      // Detectar si está en un WebView en Android (revisando 'wv' en el userAgent)
+      var androidWebview = userAgent.includes('wv');
+      
+      // Detectar si está en un navegador Chrome (usando 'chrome' en el userAgent)
+      var chrome = userAgent.includes('chrome') && !userAgent.includes('wv');
+
+      // Si es WebView en iOS o Android, devuelve true
+      if (iosWebview || androidWebview) {
+        return true; // Está en un WebView
+      } else if (chrome) {
+        return false; // Está en un navegador Chrome
+      }
+
+      return false; // No es WebView ni Chrome (puede ser otro navegador)
+    }
+
+    // Función que maneja el evento cuando se hace clic en el botón
+    document.getElementById("checkButton").addEventListener("click", function() {
+      var resultDiv = document.getElementById("result");
+
+      if (isWebview()) {
+        resultDiv.innerHTML = "<strong>Estás en un WebView.</strong>";
+      } else {
+        resultDiv.innerHTML = "<strong>Estás en un navegador, probablemente Chrome.</strong>";
+      }
+    });
+  </script>
+</body>
+</html>
