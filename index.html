@@ -16,12 +16,29 @@
       border: 1px solid #ddd;
       background-color: #fff;
     }
+    #message {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>Detección de WebView o Chrome</h1>
   <button id="checkButton">Detectar WebView o Chrome</button>
   <div id="result"></div>
+
+  <h2>Sesión</h2>
+  <button id="loginButton">Iniciar sesión</button>
+  <button id="logoutButton">Cerrar sesión</button>
+  <div id="message"></div>
 
   <script>
     // Función para detectar si está en un WebView o en un navegador
@@ -49,7 +66,7 @@
       return false; // No es WebView ni Chrome (puede ser otro navegador)
     }
 
-    // Función que maneja el evento cuando se hace clic en el botón
+    // Función que maneja el evento cuando se hace clic en el botón "Detectar WebView o Chrome"
     document.getElementById("checkButton").addEventListener("click", function() {
       var resultDiv = document.getElementById("result");
 
@@ -59,6 +76,40 @@
         resultDiv.innerHTML = "<strong>Estás en un navegador Chrome.</strong>";
       }
     });
+
+    // Función para simular iniciar sesión
+    function login() {
+      // Simulamos un inicio de sesión exitoso
+      var isSuccess = Math.random() > 0.2; // 80% de éxito
+
+      var messageDiv = document.getElementById("message");
+      if (isSuccess) {
+        messageDiv.innerHTML = "<strong>¡Éxito! Has iniciado sesión correctamente.</strong>";
+        messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
+      } else {
+        messageDiv.innerHTML = "<strong>Error: No se pudo iniciar sesión.</strong>";
+        messageDiv.style.backgroundColor = "#f8d7da"; // Rojo claro
+      }
+    }
+
+    // Función para simular cerrar sesión
+    function logout() {
+      // Simulamos un cierre de sesión exitoso
+      var isSuccess = Math.random() > 0.2; // 80% de éxito
+
+      var messageDiv = document.getElementById("message");
+      if (isSuccess) {
+        messageDiv.innerHTML = "<strong>¡Éxito! Has cerrado sesión correctamente.</strong>";
+        messageDiv.style.backgroundColor = "#d4edda"; // Verde claro
+      } else {
+        messageDiv.innerHTML = "<strong>Error: No se pudo cerrar sesión.</strong>";
+        messageDiv.style.backgroundColor = "#f8d7da"; // Rojo claro
+      }
+    }
+
+    // Event listeners para los botones de iniciar sesión y cerrar sesión
+    document.getElementById("loginButton").addEventListener("click", login);
+    document.getElementById("logoutButton").addEventListener("click", logout);
   </script>
 </body>
 </html>
